@@ -4,7 +4,7 @@ import CognitiveGauge from './CognitiveGauge';
 
 const MetricPanel = ({ title, type, data, stats, score }) => {
     return (
-        <div className={`bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col ${type === 'gauge' ? 'h-[280px]' : 'h-[280px]'}`}>
+        <div className={`bg-golden-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col ${type === 'gauge' ? 'h-[280px]' : 'h-[280px]'}`}>
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.15em]">{title}</h3>
                 <button className="text-slate-300 hover:text-slate-500 transition-colors">

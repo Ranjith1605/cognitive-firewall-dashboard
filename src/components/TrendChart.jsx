@@ -6,7 +6,7 @@ import { Info } from 'lucide-react';
 
 const TrendChart = ({ data }) => {
     return (
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 h-full min-h-[400px]">
+        <div className="bg-golden-white rounded-xl border border-slate-200 shadow-sm p-6 h-full min-h-[400px]">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2">
                     <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide">Trend over Time</h3>

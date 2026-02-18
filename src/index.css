@@ -5,6 +5,8 @@
   --color-navy-light: #243154;
   --color-navy-lighter: #2D3D6B;
   --color-slate-soft: #F8FAFC;
+  --color-golden-white: #FFFEF9;
+  --color-champagne: #FDF9F0;
   --color-cyber-green: #10B981;
   --color-cyber-green-dim: rgba(16, 185, 129, 0.15);
   --color-caution: #F59E0B;
@@ -13,13 +15,13 @@
   --color-overload-dim: rgba(239, 68, 68, 0.15);
   --color-card: rgba(36, 49, 84, 0.6);
   --color-card-border: rgba(255, 255, 255, 0.06);
-  --color-caution: #F59E0B;
-  --color-slate-soft: #F8FAFC;
 }
 
 :root {
-  background-color: #F8FAFC;
+  background: radial-gradient(circle at top left, #FFFEF9 0%, #FDF9F0 50%, #F8FAFC 100%);
+  background-attachment: fixed;
   font-family: 'Outfit', sans-serif;
+  color: #1E293B;
 }
 
 body {

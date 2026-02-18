@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Calendar, Play, ChevronDown, User } from 'lucide-react';
+import { Calendar, Play, ChevronDown, User, ShieldCheck, Fingerprint } from 'lucide-react';
 
-const Header = ({ isFocused, onToggle, selectedDay, setSelectedDay, days, status, score }) => {
+const Header = ({ isFocused, onToggle, selectedDay, setSelectedDay, days, status, activeView }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    // Map scores/labels to colors from XD
     const getStatusColor = (label) => {
         switch (label?.toLowerCase()) {
             case 'high': return 'bg-[#F97316]';
@@ -20,12 +19,47 @@ const Header = ({ isFocused, onToggle, selectedDay, setSelectedDay, days, status
         return d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
     };
 
+    const getViewTitle = () => {
+        switch (activeView) {
+            case 'security': return 'Security Center';
+            case 'focus': return 'Deep Focus';
+            case 'analytics': return 'Risk Analytics';
+            case 'settings': return 'Firewall Policy';
+            case 'alerts': return 'Alert History';
+            default: return 'Cognitive Load';
+        }
+    };
+
     return (
-        <header className="flex justify-between items-center mb-2">
-            <div className="flex items-center gap-4">
-                <h1 className="text-2xl font-bold text-slate-800">Cognitive Load</h1>
-                <div className={`${getStatusColor(status)} px-4 py-1 rounded-full text-white text-xs font-bold shadow-sm shadow-current/20`}>
-                    {status}
+        <header className="flex justify-between items-center mb-6">
+            <div className="flex items-center gap-6">
+                <div>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-2xl font-black text-slate-800 uppercase tracking-tight">{getViewTitle()}</h1>
+                        {activeView === 'dashboard' && (
+                            <div className={`${getStatusColor(status)} px-3 py-0.5 rounded text-[10px] font-black text-white uppercase shadow-lg shadow-current/10 animate-in fade-in zoom-in duration-500`}>
+                                {status}
+                            </div>
+                        )}
+                    </div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+                        CipherPolice // Mentality Perimeter // {isFocused ? 'Focused' : 'Fragmented'}
+                    </p>
+                </div>
+
+                {/* Identity Confidence Badge */}
+                <div className="hidden lg:flex items-center gap-3 px-4 py-2 bg-golden-white rounded-xl border border-slate-200 shadow-sm animate-in slide-in-from-left-4 duration-700">
+                    <div className="relative">
+                        <Fingerprint className="w-5 h-5 text-blue-600" />
+                        <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full border-2 border-white" />
+                    </div>
+                    <div>
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] font-black text-slate-800 uppercase leading-none">Identity Confirmed</span>
+                            <ShieldCheck className="w-3 h-3 text-blue-600" />
+                        </div>
+                        <p className="text-[9px] font-bold text-slate-400 uppercase leading-none mt-1">Reliability: 98.4%</p>
+                    </div>
                 </div>
             </div>
 
@@ -34,15 +68,15 @@ const Header = ({ isFocused, onToggle, selectedDay, setSelectedDay, days, status
                 <div className="relative">
                     <button
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="flex items-center gap-3 bg-white border border-slate-200 rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:border-cyber-green transition-all shadow-sm"
+                        className="flex items-center gap-3 bg-golden-white border border-slate-200 rounded-lg px-4 py-2.5 text-[11px] font-black text-slate-600 hover:border-cyber-green transition-all shadow-sm uppercase tracking-wider"
                     >
                         <Calendar className="w-4 h-4 text-cyber-green" />
                         <span>{formatDate(selectedDay)}</span>
-                        <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                     </button>
 
                     {isDropdownOpen && (
-                        <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-lg shadow-xl z-[100] py-1 overflow-hidden">
+                        <div className="absolute right-0 mt-2 w-56 bg-golden-white border border-slate-200 rounded-xl shadow-2xl z-[100] py-2 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
                             {days.map((day) => (
                                 <button
                                     key={day}
@@ -50,7 +84,7 @@ const Header = ({ isFocused, onToggle, selectedDay, setSelectedDay, days, status
                                         setSelectedDay(day);
                                         setIsDropdownOpen(false);
                                     }}
-                                    className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-50 transition-colors ${selectedDay === day ? 'text-cyber-green font-bold bg-green-50' : 'text-slate-600'}`}
+                                    className={`w-full text-left px-5 py-2.5 text-[10px] font-bold uppercase transition-colors ${selectedDay === day ? 'text-cyber-green bg-green-50/50' : 'text-slate-500 hover:bg-slate-50'}`}
                                 >
                                     {formatDate(day)}
                                 </button>
@@ -60,21 +94,22 @@ const Header = ({ isFocused, onToggle, selectedDay, setSelectedDay, days, status
                 </div>
 
                 {/* Record Button (Animated) */}
-                <button className="relative flex items-center justify-center w-10 h-10 bg-[#1e293b] rounded-full text-white hover:scale-105 transition-transform group">
+                <button className="relative flex items-center justify-center w-11 h-11 bg-[#111827] rounded-xl text-white hover:scale-105 active:scale-95 transition-all group shadow-lg shadow-slate-900/20">
                     <Play className="w-4 h-4 fill-white ml-0.5" />
-                    <div className="absolute inset-0 rounded-full border-2 border-white/20 animate-ping opacity-30 pointer-events-none" />
+                    <div className="absolute inset-0 rounded-xl border-2 border-white/20 animate-ping opacity-30 pointer-events-none" />
                     {/* Tooltip */}
-                    <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[9px] font-black px-2 py-1.5 rounded uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
                         Live Tracking
                     </span>
                 </button>
 
-                {/* Persona Toggle (Demo Only) */}
+                {/* Persona Toggle */}
                 <button
                     onClick={onToggle}
-                    className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-lg text-white text-xs font-bold hover:shadow-lg transition-all"
+                    className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-[11px] font-black uppercase tracking-widest transition-all shadow-lg active:scale-95 
+                        ${isFocused ? 'bg-gradient-to-r from-blue-600 to-indigo-600 shadow-blue-900/20' : 'bg-gradient-to-r from-orange-500 to-red-600 shadow-orange-900/20'}`}
                 >
-                    <User className="w-3 h-3" />
+                    <User className="w-3.5 h-3.5" />
                     {isFocused ? 'Focused' : 'Fragmented'}
                 </button>
             </div>
