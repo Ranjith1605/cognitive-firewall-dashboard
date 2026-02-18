@@ -7,7 +7,8 @@ import {
     Settings,
     Shield,
     Bell,
-    Lock
+    Lock,
+    User
 } from 'lucide-react';
 
 const navItems = [
@@ -17,6 +18,7 @@ const navItems = [
     { id: 'analytics', icon: BarChart3, label: 'Risk Analytics' },
     { id: 'alerts', icon: Bell, label: 'Alert History' },
     { id: 'settings', icon: Settings, label: 'Firewall Policy' },
+    { id: 'profile', icon: User, label: 'Agent Profile' },
 ];
 
 export default function Sidebar({ activeView, setActiveView }) {
@@ -61,7 +63,11 @@ export default function Sidebar({ activeView, setActiveView }) {
                 <button className="text-white/20 hover:text-white/50 transition-colors">
                     <Lock className="w-4 h-4" />
                 </button>
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center text-[10px] font-black text-white/50 border border-white/10 cursor-pointer hover:border-cyber-green/30 transition-colors">
+                <div
+                    onClick={() => setActiveView('profile')}
+                    className={`w-9 h-9 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center text-[10px] font-black border cursor-pointer transition-all
+                        ${activeView === 'profile' ? 'border-cyber-green text-cyber-green shadow-lg shadow-cyber-green/20' : 'text-white/50 border-white/10 hover:border-cyber-green/30'}`}
+                >
                     RJ
                 </div>
             </div>
