@@ -10,12 +10,9 @@ import AnalyticsView from './components/AnalyticsView';
 import DeepFocusView from './components/DeepFocusView';
 import SettingsView from './components/SettingsView';
 import AlertsHistoryView from './components/AlertsHistoryView';
-import ProfileView from './components/ProfileView';
-import LoginView from './components/LoginView';
 import { FOCUSED_DATA, FRAGMENTED_DATA } from './data/realData';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeView, setActiveView] = useState('dashboard');
   const [isFocused, setIsFocused] = useState(true);
   const data = isFocused ? FOCUSED_DATA : FRAGMENTED_DATA;
@@ -109,8 +106,6 @@ const App = () => {
         return <SettingsView />;
       case 'alerts':
         return <AlertsHistoryView />;
-      case 'profile':
-        return <ProfileView />;
       default:
         return (
           <div className="flex flex-col items-center justify-center py-32 text-slate-300 border-2 border-dashed border-slate-200 rounded-3xl animate-in fade-in zoom-in-95 duration-500">
@@ -120,10 +115,6 @@ const App = () => {
         );
     }
   };
-
-  if (!isLoggedIn) {
-    return <LoginView onLogin={() => setIsLoggedIn(true)} />;
-  }
 
   return (
     <div className="min-h-screen bg-transparent text-slate-900 font-outfit selection:bg-cyber-green/20">

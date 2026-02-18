@@ -26,7 +26,6 @@ const Header = ({ isFocused, onToggle, selectedDay, setSelectedDay, days, status
             case 'analytics': return 'Risk Analytics';
             case 'settings': return 'Firewall Policy';
             case 'alerts': return 'Alert History';
-            case 'profile': return 'Agent Profile';
             default: return 'Cognitive Load';
         }
     };
