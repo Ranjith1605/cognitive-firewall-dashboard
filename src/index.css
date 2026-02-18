@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #1A2238;
+  --color-navy-light: #243154;
+  --color-navy-lighter: #2D3D6B;
+  --color-slate-soft: #F8FAFC;
+  --color-cyber-green: #10B981;
+  --color-cyber-green-dim: rgba(16, 185, 129, 0.15);
+  --color-caution: #F59E0B;
+  --color-caution-dim: rgba(245, 158, 11, 0.15);
+  --color-overload: #EF4444;
+  --color-overload-dim: rgba(239, 68, 68, 0.15);
+  --color-card: rgba(36, 49, 84, 0.6);
+  --color-card-border: rgba(255, 255, 255, 0.06);
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--color-navy);
+  color: var(--color-slate-soft);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-navy-lighter);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cyber-green);
+}
