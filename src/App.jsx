@@ -5,11 +5,8 @@ import MetricPanel from './components/MetricPanel';
 import TrendChart from './components/TrendChart';
 import InsightBox from './components/InsightBox';
 import CognitiveGauge from './components/CognitiveGauge';
-import SecurityView from './components/SecurityView';
 import AnalyticsView from './components/AnalyticsView';
-import DeepFocusView from './components/DeepFocusView';
 import SettingsView from './components/SettingsView';
-import AlertsHistoryView from './components/AlertsHistoryView';
 import { FOCUSED_DATA, FRAGMENTED_DATA } from './data/realData';
 
 const App = () => {
