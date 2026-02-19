@@ -30,63 +30,77 @@ const App = () => {
     }
   };
 
+  const getDynamicRecommendation = (dayData) => {
+    const pillars = [
+      { name: 'Attention Fragmentation', score: dayData.attention_fragmentation, tip: "Try a 25-minute single-task sprint with notifications paused to reduce switching." },
+      { name: 'Interaction Effort', score: dayData.interaction_effort, tip: "Your interaction patterns show high friction. Consider batching repetitive tasks." },
+      { name: 'Context Pressure', score: dayData.context_pressure, tip: "Closing unused tabs and clearing notification queues will lower your cognitive baseline." }
+    ];
+    // Sort by score descending and pick the highest
+    const topPillar = [...pillars].sort((a, b) => b.score - a.score)[0];
+    return topPillar.tip;
+  };
+
   const renderView = () => {
     switch (activeView) {
       case 'dashboard':
         return (
           <>
             {/* Hero Section with Score */}
-            <div className="flex items-start gap-8 mt-4 mb-4">
+            <div className="flex items-stretch gap-8 mt-4 mb-4">
               <div className="bg-golden-white rounded-2xl border border-slate-200 shadow-sm p-6 flex items-center gap-8 w-fit text-slate-800">
                 <CognitiveGauge score={Math.round(dayData.daily_cognitive_score * 100)} size={140} />
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Daily Score</p>
-                  <p className="text-3xl font-black text-slate-800 tabular-nums">
-                    {Math.round(dayData.daily_cognitive_score * 100)}
-                    <span className="text-sm font-bold text-slate-300 ml-1">/100</span>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Daily Status</p>
+                  <p className="text-3xl font-black text-slate-800 uppercase tracking-tight">
+                    {dayData.daily_cognitive_load_label}
                   </p>
-                  <div className="mt-2 text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full w-fit">
-                    Composite result
+                  <div className="mt-2 text-[10px] font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full w-fit uppercase tracking-tight">
+                    Based on 24h telemetry
                   </div>
                 </div>
               </div>
 
               <div className="flex-1">
-                <InsightBox recommendation={dayData.one_thing_to_try} />
+                <InsightBox recommendation={getDynamicRecommendation(dayData)} />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <MetricPanel
-                title="1. Cognitive Load Breakdown"
-                type="timeline"
-                data={hourlyData.filter(h => h.sentence !== "Break detected" && h.sentence !== "-").slice(0, 5)}
-              />
-              <MetricPanel
-                title="2. Attention & Focus"
+                title="1. Attention Fragmentation"
                 type="stats"
                 stats={[
                   { label: 'Avg tab switches', value: dayData.avg_tab_switches_per_day, unit: '' },
-                  { label: 'Avg interruption lag', value: dayData.avg_interruption_lag_min_per_day, unit: 'min' },
-                  { label: 'Total interruptions', value: dayData.total_interruptions_per_day, unit: '' }
+                  { label: 'Context switches', value: dayData.context_switches_per_day, unit: '' },
+                  { label: 'Re-visited pages', value: dayData.revisited_pages_per_day, unit: '' }
                 ]}
               />
               <MetricPanel
-                title="3. Decision Patterns"
+                title="2. Interaction Effort"
                 type="stats"
                 stats={[
-                  { label: 'Re-visited pages', value: dayData.revisited_pages_per_day, unit: '' },
-                  { label: 'Best moment', value: dayData.best_moment_of_day, unit: '' },
-                  { label: 'Worst moment', value: dayData.worst_moment_of_day, unit: '' }
+                  { label: 'Click rate', value: dayData.click_rate_per_min, unit: '/min' },
+                  { label: 'Scroll variance', value: dayData.scroll_variance, unit: '' },
+                  { label: 'Interaction score', value: Math.round(dayData.interaction_effort * 100), unit: '%' }
                 ]}
               />
               <MetricPanel
-                title="4. Digital Environment"
+                title="3. Context Pressure"
                 type="stats"
                 stats={[
+                  { label: 'Open Tabs', value: Math.round(dayData.avg_open_tabs), unit: 'tabs' },
                   { label: 'Notifications', value: dayData.browser_notifications_total, unit: '' },
-                  { label: 'Meeting Quantity', value: dayData.meeting_minutes_total, unit: 'min' },
-                  { label: 'Open Tabs', value: Math.round(dayData.avg_open_tabs), unit: '' }
+                  { label: 'Meeting Quantity', value: dayData.meeting_count, unit: 'mtgs' }
+                ]}
+              />
+              <MetricPanel
+                title="4. Decision Highlights"
+                type="stats"
+                stats={[
+                  { label: 'Clear Decisions', value: dayData.clear_decisions_moment, unit: '' },
+                  { label: 'More Hesitation', value: dayData.more_hesitation_moment, unit: '' },
+                  { label: 'Cognitive Rhythm', value: dayData.daily_cognitive_score < 0.3 ? 'Stable' : 'Variant', unit: '' }
                 ]}
               />
             </div>
@@ -96,21 +110,15 @@ const App = () => {
             </div>
           </>
         );
-      case 'security':
-        return <SecurityView dayData={dayData} />;
       case 'analytics':
         return <AnalyticsView dayData={dayData} />;
-      case 'focus':
-        return <DeepFocusView />;
       case 'settings':
         return <SettingsView />;
-      case 'alerts':
-        return <AlertsHistoryView />;
       default:
         return (
           <div className="flex flex-col items-center justify-center py-32 text-slate-300 border-2 border-dashed border-slate-200 rounded-3xl animate-in fade-in zoom-in-95 duration-500">
             <h2 className="text-2xl font-black uppercase tracking-widest">{activeView.replace('-', ' ')}</h2>
-            <p className="font-bold text-sm mt-2 uppercase tracking-tight">Access Restricted — System in Development</p>
+            <p className="font-bold text-sm mt-2 uppercase tracking-tight">System Initialization...</p>
           </div>
         );
     }

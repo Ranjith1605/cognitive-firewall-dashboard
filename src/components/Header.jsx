@@ -21,12 +21,9 @@ const Header = ({ isFocused, onToggle, selectedDay, setSelectedDay, days, status
 
     const getViewTitle = () => {
         switch (activeView) {
-            case 'security': return 'Security Center';
-            case 'focus': return 'Deep Focus';
             case 'analytics': return 'Risk Analytics';
-            case 'settings': return 'Firewall Policy';
-            case 'alerts': return 'Alert History';
-            default: return 'Cognitive Load';
+            case 'settings': return 'Settings';
+            default: return 'Cognitive Load Monitor';
         }
     };
 
@@ -43,23 +40,8 @@ const Header = ({ isFocused, onToggle, selectedDay, setSelectedDay, days, status
                         )}
                     </div>
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
-                        CipherPolice // Mentality Perimeter // {isFocused ? 'Focused' : 'Fragmented'}
+                        Performance Metrics // {isFocused ? 'Optimal Flow' : 'High Fragmentation'}
                     </p>
-                </div>
-
-                {/* Identity Confidence Badge */}
-                <div className="hidden lg:flex items-center gap-3 px-4 py-2 bg-golden-white rounded-xl border border-slate-200 shadow-sm animate-in slide-in-from-left-4 duration-700">
-                    <div className="relative">
-                        <Fingerprint className="w-5 h-5 text-blue-600" />
-                        <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full border-2 border-white" />
-                    </div>
-                    <div>
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] font-black text-slate-800 uppercase leading-none">Identity Confirmed</span>
-                            <ShieldCheck className="w-3 h-3 text-blue-600" />
-                        </div>
-                        <p className="text-[9px] font-bold text-slate-400 uppercase leading-none mt-1">Reliability: 98.4%</p>
-                    </div>
                 </div>
             </div>
 

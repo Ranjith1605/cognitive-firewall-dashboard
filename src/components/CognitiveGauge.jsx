@@ -6,6 +6,14 @@ function getScoreColor(score) {
     return { main: '#F97316', label: 'Overload' };
 }
 
+function getScoreLabel(score) {
+    if (score <= 20) return "Very Low";
+    if (score <= 40) return "Low";
+    if (score <= 60) return "Medium";
+    if (score <= 80) return "High";
+    return "Very High";
+}
+
 export default function CognitiveGauge({ score, size = 200 }) {
     const [animatedScore, setAnimatedScore] = useState(0);
     const animationRef = useRef(null);
@@ -32,7 +40,7 @@ export default function CognitiveGauge({ score, size = 200 }) {
         };
     }, [score]);
 
-    const { main, label } = getScoreColor(animatedScore);
+    const { main } = getScoreColor(animatedScore);
     const strokeWidth = size * 0.08;
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
@@ -62,11 +70,11 @@ export default function CognitiveGauge({ score, size = 200 }) {
             </svg>
 
             {/* Center content */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-4xl font-black text-slate-800 tabular-nums">
-                    {animatedScore}
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
+                <span className="text-xl font-black text-slate-800 uppercase leading-tight">
+                    {getScoreLabel(animatedScore)}
                 </span>
-                <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-tight">Score</span>
+                <span className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">Cognitive Load</span>
             </div>
         </div>
     );

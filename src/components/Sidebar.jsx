@@ -1,22 +1,16 @@
 import React from 'react';
 import {
     LayoutDashboard,
-    ShieldAlert,
-    Brain,
     BarChart3,
     Settings,
-    Shield,
-    Bell,
+    Activity,
     Lock
 } from 'lucide-react';
 
 const navItems = [
     { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { id: 'security', icon: ShieldAlert, label: 'Security Center' },
-    { id: 'focus', icon: Brain, label: 'Deep Focus' },
     { id: 'analytics', icon: BarChart3, label: 'Risk Analytics' },
-    { id: 'alerts', icon: Bell, label: 'Alert History' },
-    { id: 'settings', icon: Settings, label: 'Firewall Policy' },
+    { id: 'settings', icon: Settings, label: 'Settings' },
 ];
 
 export default function Sidebar({ activeView, setActiveView }) {
@@ -25,9 +19,8 @@ export default function Sidebar({ activeView, setActiveView }) {
             {/* Logo */}
             <div className="mb-10 relative group cursor-pointer" onClick={() => setActiveView('dashboard')}>
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyber-green to-emerald-400 flex items-center justify-center shadow-lg shadow-cyber-green/20 transition-transform duration-300 group-hover:scale-110">
-                    <Shield className="w-5 h-5 text-[#111827]" strokeWidth={2.5} />
+                    <Activity className="w-5 h-5 text-[#111827]" strokeWidth={2.5} />
                 </div>
-                <div className="absolute w-2 h-2 bg-cyber-green rounded-full -top-0.5 -right-0.5 animate-pulse" />
             </div>
 
             {/* Nav Items */}

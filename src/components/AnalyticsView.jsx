@@ -127,7 +127,7 @@ const AnalyticsView = ({ dayData }) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[{ icon: Waves, label: 'Cognitive Rhythm', value: 'Sync', color: 'text-blue-600', bg: 'bg-blue-50' },
                 { icon: Activity, label: 'Response Latency', value: '420ms', color: 'text-orange-600', bg: 'bg-orange-50' },
-                { icon: AlertCircle, label: 'Breach Vulnerability', value: 'Low', color: 'text-rose-600', bg: 'bg-rose-50' }
+                { icon: AlertCircle, label: 'Context Resilience', value: 'High', color: 'text-rose-600', bg: 'bg-rose-50' }
                 ].map((item, i) => (
                     <div key={i} className="bg-golden-white rounded-2xl border border-slate-200 p-6 shadow-sm flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-xl ${item.bg} flex items-center justify-center ${item.color}`}>
