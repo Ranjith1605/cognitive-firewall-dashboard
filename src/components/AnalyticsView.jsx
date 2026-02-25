@@ -5,14 +5,16 @@ import {
 } from 'recharts';
 import { Target, Zap, Waves, Activity, TrendingUp, AlertCircle } from 'lucide-react';
 
-const AnalyticsView = ({ dayData }) => {
-    // Map dayData to Radar chart structure
+const AnalyticsView = ({ dayData, hourlyData = [], pillarScores = {} }) => {
+    const { attentionFragmentation = 0, interactionEffort = 0, contextPressure = 0 } = pillarScores;
+
+    // Real pillar-based radar chart
     const radarData = [
-        { subject: 'Attention', A: dayData.avg_tab_switches_per_day * 4, fullMark: 100 },
-        { subject: 'Decision', A: dayData.revisited_pages_per_day * 2, fullMark: 100 },
-        { subject: 'Pressure', A: dayData.browser_notifications_total * 3, fullMark: 100 },
-        { subject: 'Friction', A: (dayData.avg_interruption_lag_min_per_day || 0) * 10, fullMark: 100 },
-        { subject: 'Environment', A: dayData.avg_open_tabs * 2, fullMark: 100 },
+        { subject: 'Attention\nFragmentation', A: Math.round(attentionFragmentation * 100), fullMark: 100 },
+        { subject: 'Interaction\nEffort', A: Math.round(interactionEffort * 100), fullMark: 100 },
+        { subject: 'Context\nPressure', A: Math.round(contextPressure * 100), fullMark: 100 },
+        { subject: 'Interruptions', A: Math.min(Math.round((dayData.total_interruptions_per_day / 300) * 100), 100), fullMark: 100 },
+        { subject: 'Tab Load', A: Math.min(Math.round((dayData.avg_open_tabs / 20) * 100), 100), fullMark: 100 },
     ];
 
     // Mock historical weekly data
@@ -66,11 +68,15 @@ const AnalyticsView = ({ dayData }) => {
                     <div className="grid grid-cols-2 gap-4 mt-4">
                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Primary Driver</p>
-                            <p className="text-sm font-black text-slate-800 uppercase">Attention Fragmentation</p>
+                            <p className="text-sm font-black text-slate-800 uppercase">
+                                {attentionFragmentation >= interactionEffort && attentionFragmentation >= contextPressure ? 'Attention Fragmentation'
+                                    : interactionEffort >= contextPressure ? 'Interaction Effort'
+                                        : 'Context Pressure'}
+                            </p>
                         </div>
                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Risk Level</p>
-                            <p className="text-sm font-black text-indigo-600 uppercase">Moderate</p>
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Daily Score</p>
+                            <p className="text-sm font-black text-indigo-600 uppercase">{dayData.daily_cognitive_load_label}</p>
                         </div>
                     </div>
                 </div>
@@ -125,9 +131,9 @@ const AnalyticsView = ({ dayData }) => {
 
             {/* Driver Deep Dive */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[{ icon: Waves, label: 'Cognitive Rhythm', value: 'Sync', color: 'text-blue-600', bg: 'bg-blue-50' },
-                { icon: Activity, label: 'Response Latency', value: '420ms', color: 'text-orange-600', bg: 'bg-orange-50' },
-                { icon: AlertCircle, label: 'Context Resilience', value: 'High', color: 'text-rose-600', bg: 'bg-rose-50' }
+                {[{ icon: Waves, label: 'Avg Interruption Lag', value: `${dayData.avg_interruption_lag_min_per_day?.toFixed(2)} min`, color: 'text-blue-600', bg: 'bg-blue-50' },
+                { icon: Activity, label: 'Total Interruptions', value: dayData.total_interruptions_per_day, color: 'text-orange-600', bg: 'bg-orange-50' },
+                { icon: AlertCircle, label: 'Context Resilience', value: contextPressure < 0.4 ? 'High' : contextPressure < 0.7 ? 'Medium' : 'Low', color: 'text-rose-600', bg: 'bg-rose-50' }
                 ].map((item, i) => (
                     <div key={i} className="bg-golden-white rounded-2xl border border-slate-200 p-6 shadow-sm flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-xl ${item.bg} flex items-center justify-center ${item.color}`}>
