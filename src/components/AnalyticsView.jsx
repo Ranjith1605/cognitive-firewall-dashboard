@@ -44,7 +44,7 @@ const AnalyticsView = ({ dayData, hourlyData = [], pillarScores = {} }) => {
                         </div>
                     </div>
 
-                    <div className="h-[300px] w-full flex items-center justify-center">
+                    <div className="h-[300px] w-full min-w-0 flex items-center justify-center">
                         <ResponsiveContainer width="100%" height="100%">
                             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
                                 <PolarGrid stroke="#E2E8F0" />
